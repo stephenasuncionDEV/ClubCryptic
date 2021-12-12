@@ -1,21 +1,68 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback, forwardRef } from 'react'
 import Box from '@mui/material/Box';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import TextField from '@mui/material/TextField';
 import CloseIcon from '@mui/icons-material/Close';
 import SendIcon from '@mui/icons-material/Send';
-import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import DnsIcon from '@mui/icons-material/Dns';
+import { FixedSizeList } from 'react-window';
+import { AutoSizer } from 'react-virtualized'; 
+import { Scrollbars } from "react-custom-scrollbars";
+import Typography from '@mui/material/Typography';
+
+const renderRow = (props) => {
+    const { data, index, style } = props;
+    const item = data[index];
+
+    return (
+        <ListItem style={style} button key={index} component="div" disablePadding>
+            <ListItemIcon>
+                {item.icon}
+            </ListItemIcon>
+            <ListItemText 
+                primary={<Typography style={{ color: item.nameColor }}>{"@" + item.author}</Typography>}
+                secondary={item.message} />
+        </ListItem>
+    )
+}
 
 const SideChat = ({toggleMenu, menuState}) => {
-    const [messages, setMessages] = useState([{
-        author: "System",
-        icon: <DnsIcon />,
-        message: "Welcome to Club Cryptic!!!"
-    }])
+    const [messages, setMessages] = useState([
+        {
+            author: "System",
+            nameColor: "#3458eb",
+            icon: <DnsIcon />,
+            message: "Welcome to Club Cryptic!!!"
+        }
+    ])
+
+    const CustomScrollbars = ({ onScroll, forwardedRef, style, children }) => {
+        const refSetter = useCallback(scrollbarsRef => {
+            if (scrollbarsRef) {
+                forwardedRef(scrollbarsRef.view);
+            } 
+            else {
+                forwardedRef(null);
+            }
+        }, [forwardedRef]);
+      
+        return (
+            <Scrollbars
+                ref={refSetter}
+                style={{ ...style, overflow: "hidden" }}
+                onScroll={onScroll}
+            >
+                {children}
+            </Scrollbars>
+        );
+    };
+
+    const CustomScrollbarsVirtualList = forwardRef((props, ref) => (
+        <CustomScrollbars {...props} forwardedRef={ref} />
+    ));
 
     return (
         <SwipeableDrawer
@@ -32,18 +79,27 @@ const SideChat = ({toggleMenu, menuState}) => {
             >
                 <div id="menu-header">
                     <CloseIcon id="menu-close-button" onClick={toggleMenu}/>
+                    <h1>Chat</h1>
                 </div>
                 <div id="menu-chat-container">
-                    <List>
-                        {messages.map((data, index) => (
-                            <ListItem button key={index}>
-                                <ListItemIcon>
-                                    {data.icon}
-                                </ListItemIcon>
-                                <ListItemText primary={"@" + data.author} secondary={data.message} />
-                            </ListItem>
-                        ))}
-                    </List>
+                    <div id="menu-top">
+                        <AutoSizer>
+                            {({ height, width }) => { 
+                                return (
+                                    <FixedSizeList
+                                        height={height}
+                                        width={324}
+                                        itemSize={72}
+                                        itemCount={messages.length}
+                                        itemData={messages}
+                                        outerElementType={CustomScrollbarsVirtualList}
+                                    >
+                                        {renderRow}
+                                    </FixedSizeList>
+                                )
+                            }}
+                        </AutoSizer>
+                    </div>
                     <div id="menu-bottom">
                         <TextField 
                             id="menu-chat"

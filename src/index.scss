@@ -82,7 +82,7 @@ body {
 }
 
 #menu-close-button {
-    font-size: 32pt;
+    font-size: 28pt;
     cursor: pointer;
 }
 
@@ -96,14 +96,10 @@ body {
 #menu-chat-container {
     display: flex;
     flex-direction: column;
+    height: 100%;
     margin-left: .5em;
     margin-right: .5em;
-    height: 100%;
 }
-
-// #menu-chat-container :first-child {
-//     height: 100%;
-// }
 
 #menu-chat-display {
     box-sizing: border-box;
@@ -117,7 +113,24 @@ body {
     margin-top: 1em;
 }
 
+#menu-top {
+    height: 100%;
+}
+
 #menu-bottom {
     margin-top: auto;
 }
 
+#menu-header {
+    display: flex;
+    justify-content: space-between;
+
+    h1 {
+        margin: 0;
+        text-align: right;
+        color:rgb(92, 92, 92);
+        font-weight: 400;
+        font-size: 24pt;
+        line-height: 24pt;
+    }
+}
