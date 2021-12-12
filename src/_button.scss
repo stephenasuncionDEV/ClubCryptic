@@ -1,0 +1,56 @@
+$button-yes: rgb(159, 255, 159);
+$button-yes-bottom: rgb(162, 204, 134);
+$button-no: rgb(255, 159, 183);
+$button-no-bottom: rgb(204, 134, 175);
+$button-other: rgb(233, 43, 252);
+$button-other-bottom: rgb(179, 28, 241);
+$button-discord: rgb(114,137,218);
+$button-discord-bottom: rgb(88, 105, 167);
+
+.button-style-yes {
+    background-color: $button-yes;
+    border-bottom: 4px solid $button-yes-bottom;
+}
+
+.button-style-no {
+    background-color: $button-no;
+    border-bottom: 4px solid $button-no-bottom;
+}
+
+.button-style-blue {
+    background-color: $button-discord;
+    border-bottom: 4px solid $button-discord-bottom;
+}
+
+.button-style-other {
+    background-color: $button-other;
+    border-bottom: 4px solid $button-other-bottom;
+}
+
+.button-style-icon {
+    svg {
+        vertical-align: bottom;
+    }
+    span {
+        margin-left: .5em;
+    }
+}
+
+.button-full-width {
+    width: 100%;
+}
+
+button {
+    border: 0;
+    padding: 1em 3em 1em 3em;
+    border-radius: 5px 5px;
+    font-family: 'Inconsolata', monospace;
+    font-weight: 700;
+    transition: transform .25s;
+    cursor: pointer;
+    color: white;
+}
+
+button:hover {
+    transform: scale(1.1);
+}

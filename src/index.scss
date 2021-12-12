@@ -1,0 +1,123 @@
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;300;400;500;600;700;800;900&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
+@import "button";
+
+$bg: rgb(255, 255, 255);
+$logo-color: rgb(0, 0, 0);
+$test: rgb(50, 50, 50);
+$shadow1: 3px 3px 4px 0 rgba(128,128,128,0.4), -1px 3px 3px 0 rgba(194, 194, 194, 0.4), 1px -1px 3px 0 rgba(194,194,194,0.4);
+
+body {
+    margin: 0;
+    font-family: 'Open Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: $bg;
+}
+
+#root, .pane {
+    height: 100vh;
+}
+
+.center-item {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.center-pane {
+    padding: 1em;
+}
+
+.pane-style1 {
+    background-color: rgb(233, 233, 233);
+    border-radius: 10px 10px;
+    box-shadow: 6px 6px 15px 5px rgba(0,0,0,0.2)
+}
+
+.pane {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.header {
+    img {
+        width: 20%;
+    }
+    h1 {
+        font-size: 58pt;
+        margin: 0;
+        text-align: center;
+        color: $logo-color;
+        font-weight: 500;
+    }
+}
+
+.welcome-message {
+    text-align: center;
+    font-size: 16pt;
+}
+
+.space-even-container {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+#drip-svg {
+    position: absolute;
+    z-index: -1;
+}
+
+#menu-button {
+    position: absolute;
+    font-size: 28pt;
+    cursor: pointer;
+    right: 0px;
+    margin: 1em;
+    transition: transform .2s;
+}
+
+#menu-button:hover {
+    transform: scale(1.25);
+}
+
+#menu-close-button {
+    font-size: 32pt;
+    cursor: pointer;
+}
+
+#menu-sidebar {
+    padding: .5em;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+#menu-chat-container {
+    display: flex;
+    flex-direction: column;
+    margin-left: .5em;
+    margin-right: .5em;
+    height: 100%;
+}
+
+// #menu-chat-container :first-child {
+//     height: 100%;
+// }
+
+#menu-chat-display {
+    box-sizing: border-box;
+}
+
+#menu-send-icon {
+    font-size: 12pt;
+}
+
+.margin-top {
+    margin-top: 1em;
+}
+
+#menu-bottom {
+    margin-top: auto;
+}
+
