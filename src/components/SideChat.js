@@ -1,17 +1,11 @@
 import React, { useState, useCallback, forwardRef, useRef } from 'react'
-import Box from '@mui/material/Box';
-import SwipeableDrawer from '@mui/material/SwipeableDrawer';
-import TextField from '@mui/material/TextField';
-import CloseIcon from '@mui/icons-material/Close';
-import SendIcon from '@mui/icons-material/Send';
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import DnsIcon from '@mui/icons-material/Dns';
+import { Box, SwipeableDrawer, TextField, ListItem, ListItemIcon, ListItemText, Typography } from '@mui/material';
 import { FixedSizeList } from 'react-window';
 import { AutoSizer } from 'react-virtualized'; 
 import { Scrollbars } from "react-custom-scrollbars";
-import Typography from '@mui/material/Typography';
+import CloseIcon from '@mui/icons-material/Close';
+import SendIcon from '@mui/icons-material/Send';
+import DnsIcon from '@mui/icons-material/Dns';
 
 const renderRow = (props) => {
     const { data, index, style } = props;

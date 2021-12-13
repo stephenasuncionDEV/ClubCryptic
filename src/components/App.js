@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef, useMemo } from 'react'
 import env from 'react-dotenv'
 import { auth, logoutHandler } from '../firebase';
 import logo from './assets/header-logo.png'
@@ -7,27 +7,32 @@ import { Redirect } from '../discordAuth'
 import { useLocation } from "react-router-dom";
 import MenuIcon from '@mui/icons-material/Menu';
 import SideChat from './SideChat';
+import Alert from './Alert';
 
 const useQuery = () => {
     const { search } = useLocation();
-    return React.useMemo(() => new URLSearchParams(search), [search]);
+    return useMemo(() => new URLSearchParams(search), [search]);
 }
 
 const App = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [menuState, setMenuState] = useState(false);
+    const [toggleAlert, setToggleAlert] = useState({severity: "error", message: "Error Code: 1337", duration: 3000});
     const query = useQuery();
+    const alertRef = useRef();
 
     const onLogin = async (code) => {
         await Redirect(code);
     }
 
     useEffect(() => {
-        const code = query.get("code");
-        if (code != null) {
-            onLogin(code);
+        if (query.has("code") && isLoggedIn === false) {
+            onLogin(query.get("code"));
+            query.delete("code");
+            window.history.replaceState({}, document.title, "/");
+            showAlert("info", "ClubCryptic v.0.0.1", 6000);
         }
-    }, [query])
+    }, [query, isLoggedIn])
 
     useEffect(() => {
         auth.onAuthStateChanged((user) => {
@@ -38,6 +43,12 @@ const App = () => {
             }
         })
     }, [])
+
+    const showAlert = (severity, message, duration) => {
+        setToggleAlert({severity: severity, message: message, duration: duration});
+        alertRef.current.handleOpen();
+        //error, warning, info, success
+    }
 
     const onAuthenticate = () => {
         window.location.assign(env.DISCORD_AUTH_URL);
@@ -53,6 +64,7 @@ const App = () => {
 
     return (
         <div className="App">
+            <Alert {...toggleAlert} ref={alertRef}/>
             {isLoggedIn && (
                 <>
                     <SideChat toggleMenu={toggleMenu} menuState={menuState}/>
