@@ -192,7 +192,7 @@ window.env = {
   "npm_package_devDependencies_sass": "^1.45.0",
   "npm_package_eslintConfig_extends_0": "react-app",
   "npm_package_eslintConfig_extends_1": "react-app/jest",
-  "npm_package_gitHead": "b61d524339e980cdb1eef077f30cf12c637dbdd9",
+  "npm_package_gitHead": "24df0b16058eaf73809290b55ad36ab262daf19a",
   "npm_package_name": "clubcryptic",
   "npm_package_private": "true",
   "npm_package_readmeFilename": "README.md",

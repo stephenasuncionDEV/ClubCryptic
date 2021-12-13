@@ -6,6 +6,15 @@ $logo-color: rgb(0, 0, 0);
 $test: rgb(50, 50, 50);
 $shadow1: 3px 3px 4px 0 rgba(128,128,128,0.4), -1px 3px 3px 0 rgba(194, 194, 194, 0.4), 1px -1px 3px 0 rgba(194,194,194,0.4);
 
+*{
+    -ms-overflow-style: none;
+    scrollbar-color: transparent transparent;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
 body {
     margin: 0;
     font-family: 'Open Sans', sans-serif;

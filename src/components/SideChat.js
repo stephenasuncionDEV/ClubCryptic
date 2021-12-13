@@ -1,4 +1,4 @@
-import React, { useState, useCallback, forwardRef } from 'react'
+import React, { useState, useCallback, forwardRef, useRef } from 'react'
 import Box from '@mui/material/Box';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import TextField from '@mui/material/TextField';
@@ -30,19 +30,21 @@ const renderRow = (props) => {
 }
 
 const SideChat = ({toggleMenu, menuState}) => {
+    const outerListRef = useRef();
+
     const [messages, setMessages] = useState([
         {
             author: "System",
             nameColor: "#3458eb",
             icon: <DnsIcon />,
             message: "Welcome to Club Cryptic!!!"
-        }
+        },
     ])
 
     const CustomScrollbars = ({ onScroll, forwardedRef, style, children }) => {
         const refSetter = useCallback(scrollbarsRef => {
             if (scrollbarsRef) {
-                forwardedRef(scrollbarsRef.view);
+                forwardedRef(scrollbarsRef.view);          
             } 
             else {
                 forwardedRef(null);
@@ -60,9 +62,15 @@ const SideChat = ({toggleMenu, menuState}) => {
         );
     };
 
-    const CustomScrollbarsVirtualList = forwardRef((props, ref) => (
-        <CustomScrollbars {...props} forwardedRef={ref} />
-    ));
+    const CustomScrollbarsVirtualList = forwardRef((props, ref) => {
+        return (
+            <CustomScrollbars {...props} forwardedRef={ref}/>
+        )
+    });
+
+    const onItemsRendered = () => {
+        outerListRef.current.scrollTop = outerListRef.current.scrollHeight;
+    }
 
     return (
         <SwipeableDrawer
@@ -87,12 +95,15 @@ const SideChat = ({toggleMenu, menuState}) => {
                             {({ height, width }) => { 
                                 return (
                                     <FixedSizeList
+                                        id="menu-chat-list"
+                                        outerRef={outerListRef}
+                                        outerElementType={CustomScrollbarsVirtualList}
                                         height={height}
                                         width={324}
                                         itemSize={72}
                                         itemCount={messages.length}
                                         itemData={messages}
-                                        outerElementType={CustomScrollbarsVirtualList}
+                                        onItemsRendered={onItemsRendered}
                                     >
                                         {renderRow}
                                     </FixedSizeList>
