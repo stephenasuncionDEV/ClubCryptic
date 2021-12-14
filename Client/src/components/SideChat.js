@@ -1,11 +1,14 @@
-import React, { useState, useCallback, forwardRef, useRef } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Box, SwipeableDrawer, TextField, ListItem, ListItemIcon, ListItemText, Typography } from '@mui/material';
 import { FixedSizeList } from 'react-window';
 import { AutoSizer } from 'react-virtualized'; 
-import { Scrollbars } from "react-custom-scrollbars";
+import CustomScrollbar from './CustomScrollbar'
 import CloseIcon from '@mui/icons-material/Close';
 import SendIcon from '@mui/icons-material/Send';
 import DnsIcon from '@mui/icons-material/Dns';
+import PersonIcon from '@mui/icons-material/Person';
+import HowToRegIcon from '@mui/icons-material/HowToReg';
+import VerifiedIcon from '@mui/icons-material/Verified';
 
 const renderRow = (props) => {
     const { data, index, style } = props;
@@ -14,56 +17,57 @@ const renderRow = (props) => {
     return (
         <ListItem style={style} button key={index} component="div" disablePadding>
             <ListItemIcon>
-                {item.icon}
+                {item.icon === 0 && <DnsIcon />}
+                {item.icon === 1 && <PersonIcon />}
+                {item.icon === 2 && <HowToRegIcon />}
+                {item.icon === 3 && <VerifiedIcon />}
             </ListItemIcon>
             <ListItemText 
-                primary={<Typography style={{ color: item.nameColor }}>{"@" + item.author}</Typography>}
+                primary={<Typography style={{ color: item.nameColor }}>{item.author} {item.isAdmin && ("👑")}</Typography>}
                 secondary={item.message} />
         </ListItem>
     )
 }
 
-const SideChat = ({toggleMenu, menuState}) => {
+const SideChat = ({toggleMenu, menuState, userData, socket, serverData}) => {
+    const [messageValue, setMessageValue] = useState("");
+    const [messages, setMessages] = useState([]);
     const outerListRef = useRef();
-
-    const [messages, setMessages] = useState([
-        {
-            author: "System",
-            nameColor: "#3458eb",
-            icon: <DnsIcon />,
-            message: "Welcome to Club Cryptic!!!"
-        },
-    ])
-
-    const CustomScrollbars = ({ onScroll, forwardedRef, style, children }) => {
-        const refSetter = useCallback(scrollbarsRef => {
-            if (scrollbarsRef) {
-                forwardedRef(scrollbarsRef.view);          
-            } 
-            else {
-                forwardedRef(null);
-            }
-        }, [forwardedRef]);
-      
-        return (
-            <Scrollbars
-                ref={refSetter}
-                style={{ ...style, overflow: "hidden" }}
-                onScroll={onScroll}
-            >
-                {children}
-            </Scrollbars>
-        );
-    };
-
-    const CustomScrollbarsVirtualList = forwardRef((props, ref) => {
-        return (
-            <CustomScrollbars {...props} forwardedRef={ref}/>
-        )
-    });
 
     const onItemsRendered = () => {
         outerListRef.current.scrollTop = outerListRef.current.scrollHeight;
+    }
+
+    useEffect(() => {
+        if (socket == null) return;
+
+        socket.on("receive-message", (data) => {
+            const messageData = {
+                serverID: data.serverID,
+                author: data.author,
+                nameColor: data.nameColor,
+                icon: data.icon,
+                message: data.message,
+                isAdmin: data.isAdmin
+            }
+            setMessages([...messages, messageData]);
+        });
+
+        return () => socket.off("receive-message")
+    }, [socket, messages])
+
+    const onSend = () => {
+        const messageData = {
+            serverID: serverData.id,
+            author: userData.nickname,
+            nameColor: (userData.isAdmin ? "#0000FF" : "#000000"),
+            icon: (userData.isAdmin ? 2 : 1),
+            message: messageValue,
+            isAdmin: userData.isAdmin
+        }
+        socket.emit("send-message", { messageData });
+        setMessages([...messages, messageData]);
+        setMessageValue("");
     }
 
     return (
@@ -81,6 +85,7 @@ const SideChat = ({toggleMenu, menuState}) => {
             >
                 <div id="menu-header">
                     <CloseIcon id="menu-close-button" onClick={toggleMenu}/>
+                    <span>Server: {serverData.name}</span>
                     <h1>Chat</h1>
                 </div>
                 <div id="menu-chat-container">
@@ -91,7 +96,7 @@ const SideChat = ({toggleMenu, menuState}) => {
                                     <FixedSizeList
                                         id="menu-chat-list"
                                         outerRef={outerListRef}
-                                        outerElementType={CustomScrollbarsVirtualList}
+                                        outerElementType={CustomScrollbar}
                                         height={height}
                                         width={324}
                                         itemSize={72}
@@ -111,8 +116,15 @@ const SideChat = ({toggleMenu, menuState}) => {
                             label="message"
                             fullWidth
                             variant="standard"
+                            value={messageValue}
+                            onChange={(e) => setMessageValue(e.target.value)}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                    onSend();
+                                }
+                            }}
                         />
-                        <button className='button-style-icon button-style-other button-full-width margin-top'>
+                        <button className='button-style-icon button-style-other button-full-width margin-top' onClick={onSend}>
                             <SendIcon id="menu-send-icon"/>
                             <span>Send</span>
                         </button>

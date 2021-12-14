@@ -1,9 +1,7 @@
 import { FaDiscord } from 'react-icons/fa';
 
 const DiscordIcon = () => {
-    return (
-        <FaDiscord />
-    )
+    return <FaDiscord />
 }
 
-export default DiscordIcon;
+export default DiscordIcon

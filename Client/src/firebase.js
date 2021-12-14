@@ -66,7 +66,7 @@ const loginDiscordHandler = (userData) => {
     const userRef = doc(db, "players", userData.email);
     getDoc(userRef)
     .then((snap) => {
-        if (snap.exists) {
+        if (snap.exists()) {
             loginHandler(userData);
         } else {
             registerHandler(userData);
@@ -76,4 +76,13 @@ const loginDiscordHandler = (userData) => {
     })
 }
 
-export { db, auth, storage, analytics, loginDiscordHandler, logoutHandler };
+const getUser = async (email) => {
+    const docRef = doc(db, "players", email);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+        return docSnap.data();
+    }
+    return null;
+}
+
+export { db, auth, storage, analytics, loginDiscordHandler, logoutHandler, getUser  };

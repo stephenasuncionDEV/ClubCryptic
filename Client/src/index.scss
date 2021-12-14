@@ -133,7 +133,6 @@ body {
 #menu-header {
     display: flex;
     justify-content: space-between;
-
     h1 {
         margin: 0;
         text-align: right;
@@ -141,5 +140,27 @@ body {
         font-weight: 400;
         font-size: 24pt;
         line-height: 24pt;
+    }
+    span {
+        color:rgb(92, 92, 92);
+        margin-top: .5em;
+    }
+}
+
+#game {
+    height: 100vh;
+    background-color: rgb(174, 0, 255);
+}
+
+#play-button {
+    svg {
+        font-size: 12pt;
+    }
+}
+
+.list-style {
+    a {
+        text-decoration: none;
+        color: rgb(174, 0, 255);
     }
 }

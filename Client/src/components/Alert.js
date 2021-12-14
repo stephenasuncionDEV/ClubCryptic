@@ -13,7 +13,7 @@ const Alert = (props, ref) => {
         handleOpen() {
             setOpen(true);
         }
-      }), [])
+    }), [])
 
 
     const handleClose = (event, reason) => {
