@@ -34,13 +34,8 @@ const SideChat = ({toggleMenu, menuState, userData, socket, serverData}) => {
     const [messages, setMessages] = useState([]);
     const outerListRef = useRef();
 
-    const onItemsRendered = () => {
-        outerListRef.current.scrollTop = outerListRef.current.scrollHeight;
-    }
-
     useEffect(() => {
         if (socket == null) return;
-
         socket.on("receive-message", (data) => {
             const messageData = {
                 serverID: data.serverID,
@@ -52,11 +47,16 @@ const SideChat = ({toggleMenu, menuState, userData, socket, serverData}) => {
             }
             setMessages([...messages, messageData]);
         });
-
         return () => socket.off("receive-message")
     }, [socket, messages])
 
+    useEffect(() => {
+        if (outerListRef.current == null) return;
+        outerListRef.current.scrollTop = outerListRef.current.scrollHeight;
+    }, [messages])
+
     const onSend = () => {
+        if(messageValue.trim().length === 0) return;
         const messageData = {
             serverID: serverData.id,
             author: userData.nickname,
@@ -102,7 +102,6 @@ const SideChat = ({toggleMenu, menuState, userData, socket, serverData}) => {
                                         itemSize={72}
                                         itemCount={messages.length}
                                         itemData={messages}
-                                        onItemsRendered={onItemsRendered}
                                     >
                                         {renderRow}
                                     </FixedSizeList>
@@ -117,6 +116,7 @@ const SideChat = ({toggleMenu, menuState, userData, socket, serverData}) => {
                             fullWidth
                             variant="standard"
                             value={messageValue}
+                            autoComplete='off'
                             onChange={(e) => setMessageValue(e.target.value)}
                             onKeyDown={(e) => {
                                 if (e.key === 'Enter') {

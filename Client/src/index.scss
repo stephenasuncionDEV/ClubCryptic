@@ -5,10 +5,12 @@ $bg: rgb(255, 255, 255);
 $logo-color: rgb(0, 0, 0);
 $test: rgb(50, 50, 50);
 $shadow1: 3px 3px 4px 0 rgba(128,128,128,0.4), -1px 3px 3px 0 rgba(194, 194, 194, 0.4), 1px -1px 3px 0 rgba(194,194,194,0.4);
+$gameBG: rgb(233,43,252);
 
 *{
     -ms-overflow-style: none;
     scrollbar-color: transparent transparent;
+    scrollbar-width: none;
 }
 
 ::-webkit-scrollbar {
@@ -149,7 +151,7 @@ body {
 
 #game {
     height: 100vh;
-    background-color: rgb(174, 0, 255);
+    background-color: $gameBG;
 }
 
 #play-button {
@@ -163,4 +165,12 @@ body {
         text-decoration: none;
         color: rgb(174, 0, 255);
     }
+}
+
+#game-display {
+    border: 0;
+}
+
+.hidden {
+    display: none;
 }

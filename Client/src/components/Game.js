@@ -23,6 +23,7 @@ const Game = ({toggleAlert, socket, serverData, userData}) => {
             <div id="game">
                 <GameRender 
                     toggleAlert={toggleAlert}
+                    menuState={menuState}
                     socket={socket}
                     serverData={serverData}
                     userData={userData}
