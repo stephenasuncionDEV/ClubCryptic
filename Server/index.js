@@ -144,8 +144,6 @@ io.on("connection", (socket) => {
     })
 });
 
-//app.use(router);
-
 server.listen(PORT, () => {
     console.log("[-] ClubCryptic Server")
     console.log("[-] Running on port " + PORT)
