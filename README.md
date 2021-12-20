@@ -6,15 +6,16 @@
 
 ## Information 📜
 
-Just a simple website where you can hangout with your friends. 
+Just a simple website where you can hangout with your friends. <br />
+
 Stack: React JS, SCSS, Material UI, Socket.IO, Express JS
 
 
 ## Screenshot 📸
 
-Auth - https://discordmod.club/3q6QUJ8c
-Server List - https://discordmod.club/Wtt79uuF
-Game & Chat - https://discordmod.club/DO0hLIdT
+Auth - https://discordmod.club/3q6QUJ8c <br />
+Server List - https://discordmod.club/Wtt79uuF <br />
+Game & Chat - https://discordmod.club/DO0hLIdT <br />
 
 
 ## License 🚀️
