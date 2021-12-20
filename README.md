@@ -6,7 +6,7 @@
 
 ## Information 📜
 
-Just a simple website where you can hangout with your friends. <br />
+Just a simple website where you can hangout with your friends.
 
 Stack: React JS, SCSS, Material UI, Socket.IO, Express JS
 
