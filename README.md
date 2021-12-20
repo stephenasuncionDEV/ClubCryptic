@@ -1,4 +1,4 @@
 # ClubCryptic
 
 Current Stack:
-React JS, SASS, Material UI, Socket.IO, Express JS
+React JS, SCSS, Material UI, Socket.IO, Express JS
