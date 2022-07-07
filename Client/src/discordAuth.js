@@ -13,7 +13,7 @@ const Redirect = async (code) => {
 
     const headers = {
         headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Type': 'application/x-www-form-urlencoded', 
         }
     }
 
@@ -27,6 +27,7 @@ const Redirect = async (code) => {
     }
 
     const userResponse = await axios.get("https://discord.com/api/v8/users/@me", userHeaders);
+
     const userData = userResponse.data;
 
     await loginDiscordHandler(userData);
